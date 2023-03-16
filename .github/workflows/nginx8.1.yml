@@ -13,9 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: nginx # replace with your branch name
-      - name: Copy Dockerfile
-        run: cp nginx/Dockerfile .
+          ref: nginx
       - uses: docker/setup-qemu-action@v1
       - uses: docker/setup-buildx-action@v1
         with:
