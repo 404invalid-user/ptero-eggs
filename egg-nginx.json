@@ -13,7 +13,7 @@
         "PHP 8.1": " ghcr.io\/404invalid-user\/ptero-eggs:nginx8.1"
     },
     "file_denylist": [],
-    "startup": "rm -rf \/home\/container\/tmp\/* ; echo \"Starting PHP-FPM\" ;\/usr\/sbin\/php-fpm8 --fpm-config \/home\/container\/php-fpm\/php-fpm.conf --daemonize ; echo \"Starting Nginx\" ; \/usr\/sbin\/nginx -c \/home\/container\/nginx\/nginx.conf -p \/home\/container\/ ; echo \"Successfully started\"; if [[ ! -z ${COMPOSER_MODULES} ]]; then composer require ${COMPOSER_MODULES} --working-dir=\/home\/container\/html; fi;",
+    "startup": "rm -rf \/home\/container\/tmp\/* ; echo \"Starting PHP-FPM\" ;\/usr\/sbin\/php-fpm --fpm-config \/home\/container\/php-fpm\/php-fpm.conf --daemonize ; echo \"Starting Nginx\" ; \/usr\/sbin\/nginx -c \/home\/container\/nginx\/nginx.conf -p \/home\/container\/ ; echo \"Successfully started\"; if [[ ! -z ${COMPOSER_MODULES} ]]; then composer require ${COMPOSER_MODULES} --working-dir=\/home\/container\/html; fi;",
     "config": {
         "files": "{\r\n    \"nginx\/conf.d\/default.conf\": {\r\n        \"parser\": \"file\",\r\n        \"find\": {\r\n            \"    listen \": \"    listen {{server.build.default.port}};\"\r\n        }\r\n    }\r\n}",
         "startup": "{\r\n    \"done\": \"\",\r\n    \"userInteraction\": []\r\n}",
