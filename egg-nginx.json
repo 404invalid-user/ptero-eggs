@@ -4,7 +4,7 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2023-03-15T17:22:28+00:00",
+    "exported_at": "2023-03-21T16:48:50+00:00",
     "name": "nginx",
     "author": "invaliduser@bruvland.com",
     "description": "nginx egg",
@@ -13,16 +13,16 @@
         "PHP 8.1": " ghcr.io\/404invalid-user\/ptero-eggs:nginx8.1"
     },
     "file_denylist": [],
-    "startup": "rm -rf \/home\/container\/tmp\/* ; echo \"Starting PHP-FPM\" ;\/usr\/sbin\/php-fpm81 --fpm-config \/home\/container\/php-fpm\/php-fpm.conf --daemonize ; echo \"Starting Nginx\" ; \/usr\/sbin\/nginx -c \/home\/container\/nginx\/nginx.conf -p \/home\/container\/ ; echo \"Successfully started\"; if [[ ! -z ${COMPOSER_MODULES} ]]; then composer require ${COMPOSER_MODULES} --working-dir=\/home\/container\/html; fi;",
+    "startup": ".\/startup.sh;\r\nif [[ ! -z ${COMPOSER_MODULES} ]]; \r\n\r\n    then composer require ${COMPOSER_MODULES} --working-dir=\/home\/container\/html;\r\nfi;",
     "config": {
         "files": "{\r\n    \"nginx\/conf.d\/default.conf\": {\r\n        \"parser\": \"file\",\r\n        \"find\": {\r\n            \"    listen \": \"    listen {{server.build.default.port}};\"\r\n        }\r\n    }\r\n}",
-        "startup": "{\r\n    \"done\": \"\",\r\n    \"userInteraction\": []\r\n}",
+        "startup": "{\r\n    \"done\": \"Successfully started\",\r\n    \"userInteraction\": []\r\n}",
         "logs": "{\r\n    \"custom\": false,\r\n    \"location\": \"logs\/latest.log\"\r\n}",
         "stop": "^C"
     },
     "scripts": {
         "installation": {
-            "script": "#!\/bin\/ash\r\ncd \/mnt\/server\r\napk --update add git\r\n\r\n# cloning repo with nginx and php files\r\ngit clone --branch nginx https:\/\/github.com\/404invalid-user\/ptero-eggs .\/temp\r\n\r\ncp -r .\/temp\/nginx \/mnt\/server\/\r\ncp -r .\/temp\/php-fpm \/mnt\/server\/\r\ncp -r .\/temp\/html \/mnt\/server\/\r\nrm -rf .\/temp\r\nmkdir \/mnt\/server\/tmp\r\nmkdir \/mnt\/server\/logs\r\nif [ \"${WORDPRESS}\" == \"false\" ] || [ \"${WORDPRESS}\" == \"0\" ]; then\r\necho -e \"Install complete\"\r\nfi\r\n\r\n\r\n#wordpress\r\nif [ \"${WORDPRESS}\" == \"true\" ] || [ \"${WORDPRESS}\" == \"1\" ]; then\r\n    echo -e \"Installing wordpress\"\r\n    cd \/mnt\/server\/html\r\n    wget http:\/\/wordpress.org\/latest.tar.gz\r\n    tar xzf latest.tar.gz\r\n   mv wordpress\/* .\r\n   rm -rf wordpress latest.tar.gz\r\n   echo -e \"Install complete\"\r\n   exit 0\r\n   \r\n   fi",
+            "script": "#!\/bin\/ash\r\ncd \/mnt\/server\r\napk --update add git\r\n\r\n# cloning repo with nginx and php files\r\ngit clone --branch nginx https:\/\/github.com\/404invalid-user\/ptero-eggs .\/temp\r\n\r\ncp -r .\/temp\/nginx \/mnt\/server\/\r\ncp -r .\/temp\/php-fpm \/mnt\/server\/\r\ncp -r .\/temp\/html \/mnt\/server\/\r\n\r\ncp -r .\/temp\/start.sh \/mnt\/server\/start.sh\r\nchmod +x \/mnt\/server\/start.sh\r\n\r\nrm -rf .\/temp\r\nmkdir \/mnt\/server\/tmp\r\nmkdir \/mnt\/server\/logs\r\ntouch \/mnt\/server\/logs\/latest.log\r\n\r\nif [ \"${WORDPRESS}\" == \"false\" ] || [ \"${WORDPRESS}\" == \"0\" ]; then\r\necho -e \"Install complete\"\r\nfi\r\n\r\n\r\n#wordpress\r\nif [ \"${WORDPRESS}\" == \"true\" ] || [ \"${WORDPRESS}\" == \"1\" ]; then\r\n    echo -e \"Installing wordpress\"\r\n    cd \/mnt\/server\/html\r\n    wget http:\/\/wordpress.org\/latest.tar.gz\r\n    tar xzf latest.tar.gz\r\n   mv wordpress\/* .\r\n   rm -rf wordpress latest.tar.gz\r\n   echo -e \"Install complete\"\r\n   exit 0\r\n   \r\n   fi",
             "container": "alpine:latest",
             "entrypoint": "ash"
         }
