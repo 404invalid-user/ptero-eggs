@@ -1,2 +1,2 @@
-# pterodactyl-eggs
-a collection of pterodactyl eggs i made/use
+# go 1.19 pterodactyl egg
+
