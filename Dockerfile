@@ -6,6 +6,10 @@ RUN apk add --update --no-cache ca-certificates tzdata
 USER container
 ENV USER container
 ENV HOME /home/container
+ENV GOMODCACHE /home/container/go/pkg/mod
+
+# Create the directory for the Go module cache
+RUN mkdir -p $GOMODCACHE
 
 WORKDIR /home/container
 COPY ./entrypoint.sh /entrypoint.sh
