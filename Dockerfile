@@ -1,7 +1,7 @@
 FROM golang:1.19-alpine
 
 RUN adduser -D -h /home/container container
-RUN apk add --update --no-cache ca-certificates tzdata
+RUN apk add --update --no-cache ca-certificates tzdata bash
 
 USER container
 ENV USER container
